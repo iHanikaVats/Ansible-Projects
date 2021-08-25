@@ -1,0 +1,30 @@
+#Creating Directory, Copying file from source into newly craeted directory.
+#Change permission mode of directory
+#Removing file from the source
+---
+- hosts: centos1
+  become: yes
+  tasks:
+      - name: Create /lab/test directory if does not already exists.
+        become: yes
+        file:
+          path: /lab/test
+          state: directory
+          owner: root
+          group: root
+          mode: 0755
+
+      - name: Copy file from source to newly created direcory /lab/test
+        become: yes
+        copy:
+          src: /home/ansible/fundamentals/testcopyfile.txt
+          dest: /lab/test/testcopyfile.txt
+
+ 
+
+- hosts: localhost
+  tasks:
+      - name: Delete copied file from the source
+        file:
+          path: /home/ansible/fundamentals/testcopyfile.txt
+          state: absent
