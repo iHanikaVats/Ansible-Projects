@@ -1,0 +1,18 @@
+#Playbook to add line to a file if the file does not exists.
+#Replacing the existing state= line with new one, with the help of regexp.
+--- 
+- hosts: centos
+  tasks: 
+    - name: Create /lab directory 
+      become: yes 
+      file: 
+        path: /lab
+        state: directory
+        mode: 0755 
+    - name: Update application.conf
+      become: yes
+      lineinfile:
+        path: /lab/application.conf
+        regexp: '^state='
+        line: state=start
+        create: yes
